@@ -1,0 +1,26 @@
+{
+  "name": "node-sequelize-api",
+  "version": "1.0.0",
+  "description": "Simple Node, Sequelize MySQL CRUD API",
+  "main": "server.js",
+  "scripts": {
+    "start": "node src/server.js",
+    "dev": "NODE_ENV=development nodemon src/server.js",
+    "prod": "NODE_ENV=production nodemon src/server.js"
+  },
+  "type": "module",
+  "repository": "https://github.com/harun-rucse/node-sequelize-api.git",
+  "author": "Md Harun Or Rashid",
+  "keywords": [
+    "nodejs",
+    "expressjs",
+    "sequelize",
+    "MySQL",
+    "RESTfull-api",
+    "backend"
+  ],
+  "license": "MIT",
+  "devDependencies": {
+    "nodemon": "^3.1.2"
+  }
+}
