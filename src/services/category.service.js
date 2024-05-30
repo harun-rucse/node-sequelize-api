@@ -1,8 +1,21 @@
 import db from "../models/index.js";
 const Category = db.categories;
 
-const getAllCategories = (filter) => {
-  return Category.findAll({ where: filter });
+const getAllCategories = async (filter = {}, page = 1, limit = 10) => {
+  const offset = (page - 1) * limit;
+
+  const { count, rows } = await Category.findAndCountAll({
+    where: filter,
+    limit,
+    offset,
+  });
+
+  return {
+    totalItems: count,
+    totalPages: Math.ceil(count / limit),
+    currentPage: page,
+    categories: rows,
+  };
 };
 
 const getOneCategory = (filter) => {
