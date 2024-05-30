@@ -1,0 +1,42 @@
+version: "3.3"
+
+services:
+  mySQL:
+    image: mysql:latest
+    container_name: mySQL
+    restart: always
+    ports:
+      - "3306:3306"
+    environment:
+      - MYSQL_DATABASE=node-sequelize-db
+      - MYSQL_ROOT_PASSWORD=password
+    volumes:
+      - /db/node-sequelize-api:/var/lib/mysql
+
+  api:
+    build:
+      dockerfile: Dockerfile.dev
+      context: ./
+    container_name: api
+    restart: always
+    ports:
+      - "4000:4000"
+    env_file:
+      - ./.env.development
+    volumes:
+      - .:/api
+      - /node_modules
+    depends_on:
+      - mySQL
+      - redis
+
+  redis:
+    image: redis:latest
+    container_name: redis
+    restart: always
+    ports:
+      - "6379:6379"
+
+volumes:
+  db:
+    driver: local
