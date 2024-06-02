@@ -82,10 +82,10 @@ const updateOneCategory = catchAsync(async (req, res, next) => {
 
   const payload = _.pick(req.body, ["name", "description"]);
 
-  const updatedId = await categoryService.updateOneCategory({ id: req.params.id }, payload);
-  if (!updatedId[0]) return next(new AppError("No category found with this id.", 404));
+  const isUpdated = await categoryService.updateOneCategory({ id: req.params.id }, payload);
+  if (!isUpdated) return next(new AppError("No category found with this id.", 404));
 
-  const updatedCategory = await categoryService.getOneCategory({ id: updatedId[0] });
+  const updatedCategory = await categoryService.getOneCategory({ id: req.params.id });
 
   // Invalidate the specific category cache
   await redisClient.delAsync(`${CATEGORY_CACHE_KEY}:${req.params.id}`);
@@ -102,8 +102,8 @@ const updateOneCategory = catchAsync(async (req, res, next) => {
  * @access  Public
  */
 const deleteOneCategory = catchAsync(async (req, res, next) => {
-  const deletedId = await categoryService.deleteOneCategory({ id: req.params.id });
-  if (!deletedId[0]) return next(new AppError("No category found with this id.", 404));
+  const isDeleted = await categoryService.deleteOneCategory({ id: req.params.id });
+  if (!isDeleted) return next(new AppError("No category found with this id.", 404));
 
   // Invalidate the specific category cache
   await redisClient.delAsync(`${CATEGORY_CACHE_KEY}:${req.params.id}`);

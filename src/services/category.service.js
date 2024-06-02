@@ -28,12 +28,14 @@ const createNewCategory = (payload) => {
   return category.save();
 };
 
-const updateOneCategory = (filter, payload) => {
-  return Category.update(payload, { where: filter });
+const updateOneCategory = async (filter, payload) => {
+  const [updatedCount] = await Category.update(payload, { where: filter });
+  return updatedCount > 0;
 };
 
-const deleteOneCategory = (filter) => {
-  return Category.destroy({ where: filter });
+const deleteOneCategory = async (filter) => {
+  const deletedCount = await Category.destroy({ where: filter });
+  return deletedCount > 0;
 };
 
 export { getAllCategories, getOneCategory, createNewCategory, updateOneCategory, deleteOneCategory };

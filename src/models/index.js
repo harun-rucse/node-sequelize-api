@@ -1,9 +1,10 @@
-import { Sequelize, DataTypes } from "sequelize";
+import { Sequelize } from "sequelize";
 import path from "path";
 import dotenv from "dotenv";
 dotenv.config({ path: path.resolve(`.env.${process.env.NODE_ENV}`) });
 
 import Category from "./category.model.js";
+import Product from "./product.model.js";
 import logger from "../logger/index.js";
 
 const sequelize = new Sequelize(process.env.DB_NAME, process.env.DB_USER, process.env.DB_PASSWORD, {
@@ -23,7 +24,12 @@ const db = {};
 db.Sequelize = Sequelize;
 db.sequelize = sequelize;
 
-db.categories = Category(sequelize, DataTypes);
+db.categories = Category(sequelize);
+db.products = Product(sequelize);
+
+// Set up associations
+db.categories.hasMany(db.products, { foreignKey: "categoryId" });
+db.products.belongsTo(db.categories, { foreignKey: "categoryId" });
 
 db.sequelize
   .sync()

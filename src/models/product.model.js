@@ -1,16 +1,22 @@
 import { DataTypes } from "sequelize";
 
 export default (sequelize) => {
-  const Category = sequelize.define("category", {
+  const Product = sequelize.define("Product", {
     name: {
       type: DataTypes.STRING,
       allowNull: false,
-      unique: true,
+    },
+    price: {
+      type: DataTypes.FLOAT,
+      allowNull: false,
     },
     description: {
       type: DataTypes.STRING,
     },
+    categoryId: {
+      type: DataTypes.INTEGER,
+    },
   });
 
-  return Category;
+  return Product;
 };
